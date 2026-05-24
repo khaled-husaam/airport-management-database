@@ -1,0 +1,69 @@
+Table plane_model {
+  model_no text [pk]
+  model_name text
+  manufacturer text
+  max_capacity integer
+}
+
+Table airplane {
+  plane_no text [pk]
+  model_no text [ref: > plane_model.model_no]
+  capacity integer
+  production_year integer
+  status text
+}
+
+Table hangar {
+  hangar_no text [pk]
+  location text
+  hangar_capacity integer
+}
+
+Table airplane_location {
+  location_id integer [pk]
+  plane_no text [ref: > airplane.plane_no]
+  hangar_no text [ref: > hangar.hangar_no]
+  in_date text
+  out_date text
+}
+
+Table airport_employee {
+  ssn text [pk]
+  emp_name text
+  phone text
+  salary real
+  union_no text
+  emp_type text
+}
+
+Table technician {
+  ssn text [pk, ref: > airport_employee.ssn]
+  experience_year integer
+}
+
+Table traffic_controller {
+  ssn text [pk, ref: > airport_employee.ssn]
+  last_medical_exam text
+}
+
+Table test {
+  test_no text [pk]
+  test_name text
+  max_score integer
+  test_frequency text
+}
+
+Table technician_expertise {
+  ssn text [pk, ref: > technician.ssn]
+  model_no text [pk, ref: > plane_model.model_no]
+}
+
+Table testing_event {
+  event_id integer [pk]
+  plane_no text [ref: > airplane.plane_no]
+  ssn text [ref: > technician.ssn]
+  test_no text [ref: > test.test_no]
+  test_date text
+  hours_spent real
+  score real
+}
